@@ -100,7 +100,7 @@ fun PostSearch(viewModel: PostViewModel = hiltViewModel()) {
                 }
 
                 is SearchUIState.Failure -> {
-                    val errorMessage = (searchUiState as SearchUIState.Failure).message
+                    val errorMessage = state.message
                     Text(
                         text = errorMessage ?: "An error occurred",
                         color = MaterialTheme.colorScheme.error,
@@ -158,7 +158,6 @@ fun PostCard(postResponseItem: PostResponseItem, onSaveClick: (PostResponseItem)
                         .size(24.dp)
                         .clickable {
                             onSaveClick(postResponseItem)
-
                             Toast.makeText(ctx,"Clicked",Toast.LENGTH_SHORT).show()
 
                         }

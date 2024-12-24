@@ -2,7 +2,6 @@ package dev.vijayakumar.adminapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.vijayakumar.adminapp.local.PostEntity
 import dev.vijayakumar.adminapp.network.model.PostResponse
@@ -13,8 +12,6 @@ import dev.vijayakumar.adminapp.state.PostUIState
 import dev.vijayakumar.adminapp.state.SearchUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,11 +49,6 @@ class PostViewModel @Inject constructor(
         }
     }
 
-
-
-
-
-
     fun postListFromDatabase() {
         viewModelScope.launch {
 
@@ -70,13 +62,9 @@ class PostViewModel @Inject constructor(
                 .collect { result ->
                     _localPostList.value = PostUIState.Success(result)
                 }
-
-
         }
 
     }
-
-
 
     fun savePostToDatabase(post: PostResponseItem) {
         viewModelScope.launch {
@@ -91,15 +79,10 @@ class PostViewModel @Inject constructor(
         }
     }
 
-
-
 fun deletePostFromDatabase(post: PostEntity) {
     viewModelScope.launch {
         localRepository.deletePost(post)
     }
 }
-
-
-
 
 }

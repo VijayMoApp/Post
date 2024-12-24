@@ -24,23 +24,16 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-
-
     //API Services
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): PostServices {
         return retrofit.create(PostServices::class.java)
     }
-
-
     //Repository
     @Provides
     @Singleton
     fun provideRepository(apiService: PostServices): PostRepository {
         return PostRepository(apiService)
     }
-
-
 }

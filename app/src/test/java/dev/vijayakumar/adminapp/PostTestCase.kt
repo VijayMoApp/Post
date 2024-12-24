@@ -2,16 +2,13 @@ package dev.vijayakumar.adminapp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dev.vijayakumar.adminapp.network.model.PostResponseItem
+import dev.vijayakumar.adminapp.repository.LocalRepository
 import dev.vijayakumar.adminapp.repository.PostRepository
 import dev.vijayakumar.adminapp.state.SearchUIState
 import dev.vijayakumar.adminapp.viewmodel.PostViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -25,9 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 @OptIn(ExperimentalCoroutinesApi::class)
 class PostViewModelTest {
     @get:Rule
@@ -36,6 +31,7 @@ class PostViewModelTest {
 
     @Mock
     private lateinit var repository: PostRepository
+    private lateinit var localRepository: LocalRepository
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -43,7 +39,8 @@ class PostViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher) // Set main dispatcher to our test dispatcher
        repository = mock(PostRepository::class.java)
-        viewModel = PostViewModel(repository)  // Create the view model with the mock repository
+        localRepository = mock(LocalRepository::class.java)
+        viewModel = PostViewModel(repository, localRepository)  // Create the view model with the mock repository
     }
 
     @After

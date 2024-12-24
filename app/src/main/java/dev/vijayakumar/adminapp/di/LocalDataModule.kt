@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object LocalDataModule {
-
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): PostDatabase {
@@ -23,15 +22,10 @@ object LocalDataModule {
             PostDatabase::class.java,
             "post_database"
         ).build()
-
     }
-
-
     @Provides
     @Singleton
     fun providePostDAO(database: PostDatabase) :PostDAO{
         return database.postDAO
-
     }
-
 }

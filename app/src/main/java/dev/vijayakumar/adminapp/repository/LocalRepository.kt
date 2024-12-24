@@ -17,7 +17,5 @@ class LocalRepository @Inject constructor(private val postDAO: PostDAO) {
 
     suspend fun deletePost(post: PostEntity) {
         postDAO.deletePost(post)
-
     }
-
 }

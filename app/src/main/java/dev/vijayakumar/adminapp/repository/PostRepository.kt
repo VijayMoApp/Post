@@ -11,8 +11,6 @@ import javax.inject.Inject
 class PostRepository @Inject constructor(private val apiService: PostServices) {
 
 
-
-
         fun getPostList(postId: Int): Flow<List<PostResponseItem>> = flow {
             val response = apiService.getPosts(postId)
             emit(response)

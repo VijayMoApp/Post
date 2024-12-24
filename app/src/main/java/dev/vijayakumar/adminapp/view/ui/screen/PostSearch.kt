@@ -29,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -44,7 +45,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PostSearch(viewModel: PostViewModel = hiltViewModel()) {
-    val searchQuery = remember { mutableStateOf("") }
+    var searchQuery by remember { mutableStateOf("") }
     val searchUiState by viewModel.postList.collectAsState()
 
     Column(
@@ -54,9 +55,9 @@ fun PostSearch(viewModel: PostViewModel = hiltViewModel()) {
     ) {
         // Search Text Field
         OutlinedTextField(
-            value = searchQuery.value,
+            value = searchQuery,
             onValueChange = { query ->
-                searchQuery.value = query
+                searchQuery = query
 
                 if (query.isNotEmpty()) {
 
@@ -81,17 +82,17 @@ fun PostSearch(viewModel: PostViewModel = hiltViewModel()) {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            when (searchUiState) {
+            when (val state = searchUiState) {
                 is SearchUIState.Loading -> {
                     CircularProgressIndicator()
                 }
 
                 is SearchUIState.Success -> {
-                    val posts = (searchUiState as SearchUIState.Success).data.post
-                    if (posts.isEmpty()) {
+                   // val posts = (searchUiState as SearchUIState.Success).data.post
+                    if (state.data.post.isEmpty()) {
                         Text(text = "No Data Found", style = MaterialTheme.typography.bodyLarge)
                     } else {
-                        PostSearchContent(posts ,onSaveClick = {post ->
+                        PostSearchContent(state.data.post ,onSaveClick = {post ->
                             viewModel.savePostToDatabase(post)
 
                         })

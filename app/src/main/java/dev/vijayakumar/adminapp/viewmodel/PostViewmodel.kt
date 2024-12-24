@@ -41,16 +41,20 @@ class PostViewModel @Inject constructor(
                 .catch {e ->
                     _postList.value = SearchUIState.Failure(e.message ?: "Unknown error")
                 }
-                .collect {
-                    if (it.isEmpty()) {
+                .collect {data ->
+                    if (data.isEmpty()) {
                         _postList.value = SearchUIState.Empty
                     }else{
-                        _postList.value = SearchUIState.Success(PostResponse(it))
+                        _postList.value = SearchUIState.Success(PostResponse(data))
                     }
                 }
 
         }
     }
+
+
+
+
 
 
     fun postListFromDatabase() {
